@@ -1,0 +1,54 @@
+<div class="container">
+  <form action="/reports/table" method="post" class="d-flex">
+    <input type="date" name="time1" class="form-control">
+    <input type="date" name="time2"  class="form-control">
+    <input type="text" name="doctor" class="form-control" placeholder="Doktorlar bo'yicha">
+    <button type="submit" class="btn btn-outline-success">Tasdiqlash</button>
+    <button class="btn btn-success" onclick="exportToExcel('dataTable')"> Excel</button>
+  </form>
+  <br>
+  <hr>
+</div>
+
+<table class="ml-4 table table-striped" id="dataTable">
+  <h1 class="ml-4">Hisobotlar</h1>
+  <thead>
+    <tr>
+      <th scope="col">Mijoz ismi</th>
+      <th scope="col">Xizmatlar</th>
+      <th scope="col">Doktor</th>
+      <th scope="col">Umumiy summa</th>
+      <th scope="col">Izohlar</th>
+      <th scope="col">To'lov usuli</th>
+      <th scope="col">Sana</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each newreportsData}}
+        <tr>
+            <td>{{this.customerName}}</td>
+            <td style="color: blue;">{{this.selectedOptions}}</td>
+            <td style="color: green;" >{{this.doctor}}</td>
+            <td>{{this.totalPrice}}</td>
+            <td style="color: red;" >{{this.comment}}</td>
+            <td>{{this.typePayment}}</td>
+            <td>{{this.registerDate}}</td>
+        </tr> 
+    {{/each}}
+  </tbody>
+</table>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script>
+function exportToExcel(tableId) {
+  var table = document.getElementById(tableId);
+  var ws = XLSX.utils.table_to_sheet(table);
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, 'table.xlsx');
+}
+</script>
+
+

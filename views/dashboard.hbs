@@ -1,0 +1,129 @@
+  <form action="/dashboard/add-customer" method="post" class="dashForm">
+    <input name="customerName" type="text" placeholder="ism va familya ***">
+    <input name="number" type="text" placeholder="Telefon raqam">
+    <input name="doctor" list="doctor" type="text" placeholder="shifokor***">
+    <input name="comment" type="text" placeholder="izoh">
+    <input name="typePayment" type="text" list="payment" placeholder="To'lov usuli">
+    <input type="date" name="CustomerDate">
+    <div id="displayTotalPrice"> 0.00</div>
+    <button   class="btn-success btn" type="submit" id="btn">TASDIQLASH</button>
+         
+     <datalist id="payment">
+      <option value="KARTA">
+      <option value="NAXT">
+    </datalist>
+    <datalist id="doctor">
+      {{#each newdoctorData}}
+      <option value="{{this.doctor}}"></option>
+      {{/each}}
+    </datalist> <br>
+    <div class="multiselect">
+      <div  class="select-box" onclick="toggleOptions()">
+        <input name="servicesInput" type="text" class="search-input" id="servicesInput" placeholder="xizmatlar" oninput="filterOptions()">
+        <div class="selected-options" id="selectedOptions"></div>
+      </div>
+      <div class="options-container" id="optionsContainer">
+        {{#each newservicesData}}
+        <div class="option" onclick="selectOption(this)" data-price="{{this.price}}">{{this.services}}</div>
+        {{/each}}
+      </div>
+    </div>
+    <!-- Add a hidden input field to store the selected options -->
+    <input type="hidden" id="selectedOptionsInput" name="selectedOptions" value="">
+    <input type="hidden" id="totalPriceInput" name="totalPrice" value="">
+  </form>
+<div id="printContent" >
+ <b>SANA: {{dates}}</b>
+ <div>Ism: {{info.customerName}}</div>
+ <div>DOKTOR: {{info.doctor}}</div>
+ <div>XONA: {{info.room}} </div>
+ <div>XIZMATLAR: {{info.selectedOptions}}</div>
+ <div>UMUMIY NARX: {{info.totalPrice}} </div>
+</div>
+  <script>
+  window.onload = function() {
+    printJS({
+      printable: 'printContent',
+      type: 'html',
+      targetStyles: ['*'],
+      header: 'TIBBIY MARKAZ',
+      style: `
+        @media print {
+          body {
+            font-size: 10pt;
+            height: 200px;
+          }
+        }
+      `,
+    });
+  };
+
+    function toggleOptions() {
+      var optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.style.display = optionsContainer.style.display === "block" ? "none" : "block";
+    }
+
+    var selectedOptions = []; // Initialize an empty array to store the selected options
+    var selectedPrices = []; // Initialize an empty array to store the prices of selected options
+
+    function updateServicesInput() {
+      selectedOptions = Array.from(document.getElementsByClassName("selected-option-text"))
+        .map(option => option.innerText);
+
+      selectedPrices = Array.from(document.getElementsByClassName("selected-option-price"))
+        .map(price => parseFloat(price.getAttribute("data-price"))); // Extract prices and convert to float
+
+      var totalPrice = selectedPrices.reduce((acc, price) => acc + price, 0); // Calculate total price
+
+      document.getElementById("selectedOptionsInput").value = JSON.stringify(selectedOptions);
+      document.getElementById("totalPriceInput").value = totalPrice.toFixed(2); // Set the total price in the hidden input
+      document.getElementById("displayTotalPrice").innerText = " " + totalPrice.toFixed(2); // Update the displayed total price
+    }
+
+    function selectOption(option) {
+      var selectedOptionsContainer = document.getElementById("selectedOptions");
+      var optionText = option.innerText;
+      var optionPrice = parseFloat(option.getAttribute("data-price")); // Get the price of the selected option
+
+      if (!selectedOptionsContainer.innerText.includes(optionText)) {
+        var selectedOption = document.createElement("div");
+        selectedOption.className = "selected-option";
+        var selectedOptionText = document.createElement("div");
+        selectedOptionText.className = "selected-option-text";
+        selectedOptionText.innerText = optionText;
+
+        var selectedOptionPrice = document.createElement("div");
+        selectedOptionPrice.className = "selected-option-price";
+        selectedOptionPrice.setAttribute("data-price", optionPrice); // Store the price as an attribute
+        selectedOptionPrice.innerText = optionPrice.toFixed(2);
+
+        var cancelOption = document.createElement("div");
+        cancelOption.className = "cancel-option";
+        cancelOption.innerText = "x";
+        cancelOption.onclick = function () {
+          selectedOption.remove();
+          updateServicesInput();
+        };
+
+        selectedOption.appendChild(selectedOptionText);
+        selectedOption.appendChild(selectedOptionPrice);
+        selectedOption.appendChild(cancelOption);
+
+        selectedOptionsContainer.appendChild(selectedOption);
+        updateServicesInput();
+      }
+
+      var optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.style.display = "none";
+    }
+
+    function filterOptions() {
+      var input = document.querySelector('.search-input');
+      var filter = input.value.toUpperCase();
+      var options = document.querySelectorAll('.option');
+      options.forEach(option => {
+        var textValue = option.textContent || option.innerText;
+        option.style.display = textValue.toUpperCase().includes(filter) ? "" : "none";
+      });
+    }
+  </script>

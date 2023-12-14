@@ -1,0 +1,87 @@
+  <div  class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form action="/settings/add-item" method="post">
+            <h1>Xizmatlarni kiritish</h1>
+          <div class="custom-input-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Xizmatlar</span>
+              </div>
+              <input name="services" type="text" class="form-control" placeholder="Xizmat nomini kiriting">
+            </div>
+          </div>
+          <div class="custom-input-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Narxi</span>
+              </div>
+              <input name="price" type="number" class="form-control" placeholder="Narxni kiriting">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-outline-success">Saqlash</button>
+        </form>
+        <form action="/settings/add-doctor" method="post">
+            <h1>Shifokor kiritish</h1>
+             <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Shifokor</span>
+              </div>
+              <input name="doctor" type="text" class="form-control" placeholder="Shifokorni kiriting">
+            </div> <br>
+           <div class="custom-input-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Xona</span>
+              </div>
+              <input name="room" type="text" class="form-control" placeholder="Xona raqami">
+            </div>
+          </div>
+           <button type="submit" class="mt-3 btn btn-outline-success">Saqlash</button>
+        </form>
+
+      </div>
+    </div>
+   {{!-- TABLES --}}
+ <div class="container">
+    <h2>Shifokorlar</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Ism</th>
+          <th>xona</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+  {{#each newdoctorData}}
+    <tr>
+      <td>{{this.doctor}}</td>
+      <td>{{this.room}}</td>
+      <td> <a href="http://localhost:3000/setting/del/doc?id={{this.id}}" style="color: red;">O'chirish</a></td>
+    </tr>
+  {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{!-- xizmlatlar table --}}
+   <table class="ml-5 table table-striped">
+    <h1 class="ml-5">Xizmatlar</h1>
+  <thead>
+    <tr>
+      <th scope="col">nomi</th>
+      <th scope="col">narxi</th>
+      <th scope="col">action</th>
+     </tr>
+  </thead>
+  <tbody>
+ {{#each newservicesData}}
+    <tr>
+      <td>{{this.services}}</td>
+      <td> {{this.price}} </td>
+      <td> <a href="http://localhost:3000/setting/del/ser?id={{this.id}}" style="color: red;">O'chirish</a></td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>
