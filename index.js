@@ -10,7 +10,7 @@ const app = express();
 // SHAARRTT
 const hbs = create({ defaultLayout: 'main', extname: 'hbs' });
 // Set Handlebars as the view engine
-app.engine('hbs', hbs.engine);
+app.engine('hbs', hbs.engine());
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
