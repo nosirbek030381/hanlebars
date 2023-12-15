@@ -10,12 +10,12 @@ router.get('/', async (req, res) => {
 	const servicesData = await services.find();
 	const newdoctorData = doctorData.map(doc => ({ doctor: doc.doctor }));
 	const newservicesData = servicesData.map(ser => ({ services: ser.services, price: ser.price }));
-	res.render('dashboard', {
+	res.render('index', {
 		newdoctorData: newdoctorData,
 		newservicesData: newservicesData,
 	});
 });
-router.post('/dashboard/add-customer', async (req, res) => {
+router.post('/index/add-customer', async (req, res) => {
 	const array = JSON.parse(req.body.selectedOptions);
 	const theroom = await doctor.findOne({ doctor: req.body.doctor });
 
@@ -38,7 +38,7 @@ router.post('/dashboard/add-customer', async (req, res) => {
 	const newservicesData = servicesData.map(ser => ({ services: ser.services, price: ser.price }));
 	const dates = format(new Date(), 'dd.MM.yyyy  HH:mm:ss');
 	console.log(typeof date);
-	res.render('dashboard', {
+	res.render('index', {
 		newdoctorData: newdoctorData,
 		newservicesData: newservicesData,
 		info: info,
