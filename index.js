@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import Routes from './routes/routes.js';
 
+const __dirname = path.dirname(import.meta.url);
 dotenv.config();
 const app = express();
 // SHAARRTT
