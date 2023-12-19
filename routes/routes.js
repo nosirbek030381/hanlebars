@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 	const servicesData = await services.find();
 	const newdoctorData = doctorData.map(doc => ({ doctor: doc.doctor }));
 	const newservicesData = servicesData.map(ser => ({ services: ser.services, price: ser.price }));
-	res.render('index', {
+	res.render('index.hbs', {
 		newdoctorData: newdoctorData,
 		newservicesData: newservicesData,
 	});

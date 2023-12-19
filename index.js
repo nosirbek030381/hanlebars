@@ -14,7 +14,7 @@ const hbs = create({ defaultLayout: 'main', extname: 'hbs' });
 // Set Handlebars as the view engine
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', './views');
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
