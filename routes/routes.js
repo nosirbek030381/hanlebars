@@ -5,7 +5,7 @@ import doctor from './doctor.js';
 import services from './services.js';
 const router = Router();
 // Routes
-router.get('/', async (req, res) => {
+router.get(['/', '/index'], async (req, res) => {
 	const doctorData = await doctor.find();
 	const servicesData = await services.find();
 	const newdoctorData = doctorData.map(doc => ({ doctor: doc.doctor }));
@@ -37,8 +37,8 @@ router.post('/index/add-customer', async (req, res) => {
 	const newdoctorData = doctorData.map(doc => ({ doctor: doc.doctor }));
 	const newservicesData = servicesData.map(ser => ({ services: ser.services, price: ser.price }));
 	const dates = format(new Date(), 'dd.MM.yyyy  HH:mm:ss');
-	console.log(typeof date);
-	res.render('index', {
+	console.log(typeof dates);
+	res.render('index.hbs', {
 		newdoctorData: newdoctorData,
 		newservicesData: newservicesData,
 		info: info,
