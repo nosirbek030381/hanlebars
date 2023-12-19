@@ -69,13 +69,13 @@ router.post('/reports/table', async (req, res) => {
 		const reportsData = await Customer.find(query);
 
 		const newreportsData = reportsData.map(m => ({
-			customerName: m.customerName,
-			doctor: m.doctor,
-			comment: m.comment,
-			typePayment: m.typePayment,
-			totalPrice: m.totalPrice,
-			selectedOptions: m.selectedOptions,
-			registerDate: format(m.registerDate, 'dd MMM yyyy'),
+			customerName: m?.customerName,
+			doctor: m?.doctor,
+			comment: m?.comment,
+			typePayment: m?.typePayment,
+			totalPrice: m?.totalPrice,
+			selectedOptions: m?.selectedOptions,
+			registerDate: format(m?.registerDate, 'dd MMM yyyy'),
 		}));
 
 		res.render('reports', { newreportsData });

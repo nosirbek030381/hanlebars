@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { create } from 'express-handlebars';
 import mongoose from 'mongoose';
-import Routes from './routes.js';
+import Routes from './routes/routes.js';
 
 dotenv.config();
 const app = express();
