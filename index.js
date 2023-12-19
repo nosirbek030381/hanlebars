@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { create } from 'express-handlebars';
 import mongoose from 'mongoose';
+import path from 'path';
 import Routes from './routes/routes.js';
 
 dotenv.config();
@@ -12,7 +13,7 @@ const hbs = create({ defaultLayout: 'main', extname: 'hbs' });
 // Set Handlebars as the view engine
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
