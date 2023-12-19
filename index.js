@@ -34,5 +34,5 @@ db.once('open', () => {
 // Start the server
 const port = process.env.ENV_URL || 4001;
 app.listen(port, () => {
-	console.log('Server is running ');
+	console.log(`Server is running - ${port} `);
 });
